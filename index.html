@@ -86,13 +86,35 @@ function labelDay(k){
  const [y,m,d]=k.split("-").map(Number);
  return new Date(y,m-1,d).toLocaleDateString("en-IN",{day:"2-digit",month:"short"});
 }
+function hasActualSponsorshipAmount(record){
+  // Public dashboard rule: hide rows that contain no actual sponsorship amount.
+  // Budget values are already excluded by amount().
+  if(!record || typeof record !== 'object') return false;
+
+  const skipKeys = new Set([
+    'Timestamp',
+    'Mob Number',
+    'Mobile Number',
+    'Attach Payment screenshot (if possible)'
+  ]);
+
+  for(const key of Object.keys(record)){
+    if(skipKeys.has(key)) continue;
+    if(amount(record[key]) > 0) return true;
+  }
+  return false;
+}
+
 function makeEntries(r){
  const data=Array.isArray(r.data)?r.data:[],h=Array.isArray(r.headers)?r.headers:Object.keys(data[0]||{});
  const skip=new Set(["Timestamp","Mob Number","Mobile Number","Attach Payment screenshot (if possible)"]);
  let out=[];
  data.forEach(row=>h.forEach(k=>{
    if(skip.has(k)||!String(row[k]??"").trim())return;
-   out.push({date:row["Timestamp"]||"",day:dayKey(row["Timestamp"]),person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",category:k,text:String(row[k]),amount:amount(row[k])});
+   const parsedAmount=amount(row[k]);
+   // Do not display non-sponsorship/blank rows. Only actual ₹ amounts count.
+   if(parsedAmount<=0)return;
+   out.push({date:row["Timestamp"]||"",day:dayKey(row["Timestamp"]),person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",category:k,text:String(row[k]),amount:parsedAmount});
  }));
  return out;
 }
