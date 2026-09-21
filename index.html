@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Happy Trails Durga Puja 2026 | Puja Sponsorship 2026</title>
-<meta name="description" content="Live Happy Trails Durga Puja Sponsorship 2026 dashboard">
+<title>Happy Trails | Sponsorship 2026</title>
+<meta name="description" content="Live Happy Trails Sponsorship 2026 dashboard">
 <style>
 :root{--red:#9b1d27;--red2:#6f121b;--gold:#d4a64a;--cream:#fff8ed;--ink:#2b241f;--muted:#766b61;--line:#eadfd3;--green:#176b38}
 *{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(135deg,#fffaf2,#f7eee5)}
@@ -22,10 +22,31 @@
 .note{font-size:12px;color:var(--muted);line-height:1.5}.footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.cards,.grid2{grid-template-columns:1fr}.toolbar>*{width:100%;min-width:0}.header{padding-top:32px}}
 </style>
+
+<style>
+#data-loading {
+  padding: 18px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+#data-error {
+  display:none;
+  padding:12px;
+  margin:12px 0;
+  border-radius:10px;
+  background:#fff3cd;
+  color:#664d03;
+  font-size:14px;
+}
+</style>
+
 </head>
 <body>
+<div id="data-loading">Loading sponsorship data…</div>
+<div id="data-error"></div>
 <header class="header">
-  <div class="badge">Maa Durga Residence</div>
+  <div class="badge">Happy Trails</div>
   <h1>🌺 Sponsorship 2026</h1>
   <p>Live Puja Sponsorship Dashboard</p>
 </header>
@@ -83,7 +104,7 @@
     </p>
   </div>
 </main>
-<footer class="footer">Maa Durga Residence • Sponsorship 2026</footer>
+<footer class="footer">Happy Trails • Sponsorship 2026</footer>
 
 <script>
 /*
@@ -165,57 +186,76 @@ function render(){
   document.getElementById("categories").innerHTML=entries.length ? entries.map(([k,v])=>`<div><div class="row"><span>${esc(k)}</span><strong>${money(v)}</strong></div><div class="bar"><span style="width:${v/max*100}%"></span></div></div>`).join("") : `<div class="empty">No data yet.</div>`;
 }
 
-async function loadData(){
-  document.getElementById("updated").textContent="Loading…";
-  try{
-    // Read the published CSV version of the Google Sheet. This is more reliable
-    // for a public GitHub Pages site than the private spreadsheet/GViz endpoint.
-    const url=`https://script.google.com/macros/s/AKfycbyWZmvtOLcayjjmxazaHxn2b0g4eTkiRBFqRvCaIAgz9fLusKfLx7iNA5h-ZiZ24oolUQ/exec"no-store"});
-    if(!response.ok) throw Error("Published Google Sheet returned HTTP "+response.status);
-    const csv=await response.text();
-    if(!csv || csv.trim().startsWith("<!DOCTYPE")) throw Error("Published sheet did not return CSV data");
 
-    const table=parseCSV(csv);
-    const headers=table[0]||[];
-    const rows=table.slice(1);
-    const nameCol=findCol(headers,["Name & FLAT NO","Name and Flat","Name"]);
-    const dateCol=findCol(headers,["Timestamp"]);
-    const mobileCol=findCol(headers,["Mob Number","Mobile"]);
-    const sponsorCols=[];
-    headers.forEach((h,i)=>{
-      if(i!==nameCol&&i!==dateCol&&i!==mobileCol&&i>=3&&clean(h)&&!norm(h).includes("attachpaymentscreenshot")){
-        sponsorCols.push({i,header:h,category:shortCategory(h)});
+async function loadData() {
+  const CACHE_KEY = "happy_trails_durga_sponsorship_cache_v1";
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+
+  // Render cached data immediately when available.
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed && Array.isArray(parsed.data)) {
+        if (typeof renderDashboard === "function") renderDashboard(parsed.data);
+        else if (typeof render === "function") render(parsed.data);
       }
+    }
+  } catch (e) {
+    console.warn("Cache read failed", e);
+  }
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "GET",
+      cache: "no-store",
+      signal: controller.signal,
+      headers: { "Accept": "application/json" }
     });
 
-    records=rows.map(row=>{
-      const items=[];
-      sponsorCols.forEach(c=>{
-        const raw=row[c.i]||"";
-        const amount=parseAmount(raw);
-        if(amount>0)items.push({category:c.category,amount});
-      });
-      const nf=clean(row[nameCol]||"");
-      const parts=nf.split(/\s*,\s*/);
-      const name=parts.length>1?parts.slice(0,-1).join(", "):nf;
-      const flat=parts.length>1?parts[parts.length-1]:"";
-      return {date:clean(row[dateCol]||""),name,flat,items,total:items.reduce((sum,x)=>sum+x.amount,0)};
-    }).filter(r=>r.name||r.items.length);
+    clearTimeout(timeout);
 
-    const select=document.getElementById("category");
-    const old=select.value;
-    select.innerHTML='<option value="">All sponsorships</option>'+[...new Set(records.flatMap(r=>r.items.map(x=>x.category)))].sort().map(x=>`<option>${esc(x)}</option>`).join("");
-    if([...select.options].some(o=>o.value===old))select.value=old;
+    if (!response.ok) throw new Error("API request failed: " + response.status);
 
-    document.getElementById("updated").textContent=new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
-    render();
-  }catch(e){
-    console.error(e);
-    records=[];
-    document.getElementById("updated").textContent="Connection issue";
-    document.getElementById("rows").innerHTML=`<tr><td colspan="5" class="empty"><strong>Could not read the published Google Sheet.</strong><br><br>Please confirm the sheet is published to the web: <b>File → Share → Publish to web → Entire spreadsheet → CSV</b>, then press Refresh.</td></tr>`;
+    const result = await response.json();
+
+    if (!result.success) {
+      throw new Error(result.error || "API returned an error");
+    }
+
+    const rows = Array.isArray(result.data) ? result.data : [];
+
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        savedAt: Date.now(),
+        data: rows
+      }));
+    } catch (e) {
+      console.warn("Cache write failed", e);
+    }
+
+    if (typeof renderDashboard === "function") renderDashboard(rows);
+    else if (typeof render === "function") render(rows);
+
+    const errorBox = document.getElementById("data-error");
+    if (errorBox) errorBox.style.display = "none";
+
+  } catch (error) {
+    clearTimeout(timeout);
+    console.error("Sponsorship API error:", error);
+
+    const errorBox = document.getElementById("data-error");
+    if (errorBox) {
+      errorBox.textContent = "Live data is taking longer than expected. Showing the latest available data.";
+      errorBox.style.display = "block";
+    }
   }
 }
+
+loadData();
+setInterval(loadData, 5 * 60 * 1000);
+
 
 function parseCSV(text){
   const out=[]; let row=[], cell="", quoted=false;
@@ -238,5 +278,17 @@ function parseCSV(text){
 loadData();
 setInterval(loadData,5*60*1000);
 </script>
+
+<script>
+(function(){
+  const hide = () => {
+    const el = document.getElementById("data-loading");
+    if (el) el.style.display = "none";
+  };
+  setTimeout(hide, 12000);
+  window.addEventListener("load", () => setTimeout(hide, 300));
+})();
+</script>
+
 </body>
 </html>
