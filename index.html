@@ -29,7 +29,7 @@ input,select,button{padding:10px 12px;border:1px solid #ddd;border-radius:8px;ba
 <div class="card"><div class="label">Average Entry</div><div id="avg" class="value">₹0</div></div>
 </section>
 
-<section class="panel"><h2>Daily Collection</h2><div class="muted">Daily sponsorship amount and cumulative collection. Hover/tap the chart for details.</div>
+<section class="panel"><h2>Daily Collection</h2><div class="muted">Daily sponsorship collection. Budget amounts shown in sponsorship descriptions are not included.</div>
 <div class="charts"><div><canvas id="dailyChart"></canvas></div><div><canvas id="countChart"></canvas></div></div></section>
 
 <section class="panel"><h2>Explore Sponsorships</h2>
@@ -52,10 +52,27 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const money=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 
 function amount(s){
- let t=0,x=String(s||"").replace(/,/g,""),m;
- m=x.match(/₹\s*(\d+(?:\.\d+)?)/gi)||[];m.forEach(v=>t+=parseFloat(v.replace(/[₹\s]/g,""))||0);
- m=x.match(/(\d+(?:\.\d+)?)\s*K\b/gi)||[];m.forEach(v=>t+=(parseFloat(v)||0)*1000);
- return t;
+  // Count ONLY the actual sponsorship amount(s) marked with ₹.
+  // Explicit "Budget" amounts are excluded, e.g.
+  // "Durga Saptashati Path ₹1101 (Budget 25K)" -> ₹1101 only.
+  if(!s) return 0;
+
+  let text = String(s).replace(/,/g,"");
+
+  // Remove budget portions before extracting amounts.
+  // Handles: Budget 25K, Budget ₹25K, Budget 25000,
+  // and budget text inside parentheses.
+  text = text.replace(
+    /\(?\s*Budget\s*:?\s*₹?\s*\d+(?:\.\d+)?\s*[Kk]?\s*\)?/gi,
+    ""
+  );
+
+  // Extract only rupee-denominated amounts.
+  const matches = text.match(/₹\s*\d+(?:\.\d+)?/g) || [];
+
+  return matches.reduce((total, value) => {
+    return total + (parseFloat(value.replace(/[₹\s]/g,"")) || 0);
+  }, 0);
 }
 function dayKey(v){
  if(!v)return null;
