@@ -89,11 +89,7 @@
 /*
   SOURCE SHEET
   Published Google Sheet:
-  https://docs.google.com/spreadsheets/d/e/2PACX-1vQH_KRmVZlavI1Te9hyu-ker2n0vO7lqdUDKbF_vdZh2KWDKnAyZlBVCdQxdo1pEhsuSOPcbWwvwANd/pubhtml
-
-  Original spreadsheet ID + response-tab GID are used for the live GViz feed.
-*/
-const SPREADSHEET_ID="1SVf7DBr_Mjtwj29bQ_dzR5UVCVCoiC0rhZbE9lLr-Ts";
+  https://script.google.com/macros/s/AKfycbyWZmvtOLcayjjmxazaHxn2b0g4eTkiRBFqRvCaIAgz9fLusKfLx7iNA5h-ZiZ24oolUQ/exec"2PACX-1vQH_KRmVZlavI1Te9hyu-ker2n0vO7lqdUDKbF_vdZh2KWDKnAyZlBVCdQxdo1pEhsuSOPcbWwvwANd";
 const SHEET_GID="454106339";
 const TARGET=0; // Put the community target here, e.g. 500000. 0 hides percentage.
 
@@ -172,12 +168,16 @@ function render(){
 async function loadData(){
   document.getElementById("updated").textContent="Loading…";
   try{
-    const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=out:json`;
-    const text=await fetch(url,{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Google Sheet feed unavailable");return r.text()});
-    const a=text.indexOf("{"),b=text.lastIndexOf("}");
-    if(a<0||b<0)throw Error("Unexpected Google response");
-    const json=JSON.parse(text.slice(a,b+1));
-    const headers=(json.table.cols||[]).map(c=>c.label||c.id||"");
+    // Read the published CSV version of the Google Sheet. This is more reliable
+    // for a public GitHub Pages site than the private spreadsheet/GViz endpoint.
+    const url=`https://script.google.com/macros/s/AKfycbyWZmvtOLcayjjmxazaHxn2b0g4eTkiRBFqRvCaIAgz9fLusKfLx7iNA5h-ZiZ24oolUQ/exec"no-store"});
+    if(!response.ok) throw Error("Published Google Sheet returned HTTP "+response.status);
+    const csv=await response.text();
+    if(!csv || csv.trim().startsWith("<!DOCTYPE")) throw Error("Published sheet did not return CSV data");
+
+    const table=parseCSV(csv);
+    const headers=table[0]||[];
+    const rows=table.slice(1);
     const nameCol=findCol(headers,["Name & FLAT NO","Name and Flat","Name"]);
     const dateCol=findCol(headers,["Timestamp"]);
     const mobileCol=findCol(headers,["Mob Number","Mobile"]);
@@ -188,18 +188,18 @@ async function loadData(){
       }
     });
 
-    records=(json.table.rows||[]).map(row=>{
+    records=rows.map(row=>{
       const items=[];
       sponsorCols.forEach(c=>{
-        const raw=val(row,c.i);
+        const raw=row[c.i]||"";
         const amount=parseAmount(raw);
         if(amount>0)items.push({category:c.category,amount});
       });
-      const nf=clean(val(row,nameCol));
+      const nf=clean(row[nameCol]||"");
       const parts=nf.split(/\s*,\s*/);
       const name=parts.length>1?parts.slice(0,-1).join(", "):nf;
       const flat=parts.length>1?parts[parts.length-1]:"";
-      return {date:clean(val(row,dateCol)),name,flat,items,total:items.reduce((s,x)=>s+x.amount,0)};
+      return {date:clean(row[dateCol]||""),name,flat,items,total:items.reduce((sum,x)=>sum+x.amount,0)};
     }).filter(r=>r.name||r.items.length);
 
     const select=document.getElementById("category");
@@ -213,8 +213,27 @@ async function loadData(){
     console.error(e);
     records=[];
     document.getElementById("updated").textContent="Connection issue";
-    document.getElementById("rows").innerHTML=`<tr><td colspan="5" class="empty"><strong>Could not read the published Google Sheet.</strong><br><br>Confirm that the response tab is still published to the web and then press Refresh.</td></tr>`;
+    document.getElementById("rows").innerHTML=`<tr><td colspan="5" class="empty"><strong>Could not read the published Google Sheet.</strong><br><br>Please confirm the sheet is published to the web: <b>File → Share → Publish to web → Entire spreadsheet → CSV</b>, then press Refresh.</td></tr>`;
   }
+}
+
+function parseCSV(text){
+  const out=[]; let row=[], cell="", quoted=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i], next=text[i+1];
+    if(quoted){
+      if(ch==='"' && next==='"'){cell+='"'; i++;}
+      else if(ch==='"') quoted=false;
+      else cell+=ch;
+    }else{
+      if(ch==='"') quoted=true;
+      else if(ch===','){row.push(cell);cell="";}
+      else if(ch==='\n'){row.push(cell);out.push(row);row=[];cell="";}
+      else if(ch!=='\r') cell+=ch;
+    }
+  }
+  row.push(cell); if(row.length>1 || row[0]!=="") out.push(row);
+  return out;
 }
 loadData();
 setInterval(loadData,5*60*1000);
