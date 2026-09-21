@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maa Durga Residence | Sponsorship 2026</title>
+<meta name="description" content="Live Maa Durga Residence Sponsorship 2026 dashboard">
+<style>
+:root{--red:#9b1d27;--red2:#6f121b;--gold:#d4a64a;--cream:#fff8ed;--ink:#2b241f;--muted:#766b61;--line:#eadfd3;--green:#176b38}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(135deg,#fffaf2,#f7eee5)}
+.header{color:#fff;text-align:center;padding:42px 18px 58px;background:radial-gradient(circle at 50% 0,#d45c3d 0,#a5232a 48%,#67131b 100%)}
+.badge{display:inline-block;border:1px solid #ffffff42;background:#ffffff18;border-radius:99px;padding:7px 14px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase}
+.header h1{font-family:Georgia,serif;font-size:clamp(30px,6vw,52px);margin:12px 0 4px}.header p{margin:0;opacity:.9}
+.wrap{max-width:1180px;margin:auto;padding:0 16px 50px}.overlap{margin-top:-30px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px #6b2a1010;padding:20px}
+.stat .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}.stat .value{font-size:27px;font-weight:850;color:var(--red);margin-top:6px}
+.progress{margin-top:14px}.progressHead{display:flex;justify-content:space-between;font-weight:800;margin-bottom:10px}.track{height:13px;background:#eee0cf;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .5s}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.toolbar>*{font:inherit}.input,.select{border:1px solid #ddcfc0;background:#fff;border-radius:10px;padding:12px 13px;min-width:190px}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:var(--red);color:#fff}.secondary{background:#f0dfc2;color:#63341e}
+.section{margin-top:22px}.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:0 0 12px}.sectionHead h2{margin:0;font-family:Georgia,serif}.muted{font-size:12px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.list{display:flex;flex-direction:column;gap:12px}.row{display:flex;justify-content:space-between;gap:15px;padding-bottom:10px;border-bottom:1px solid #f0e7df}.row:last-child{border-bottom:0}.bar{height:8px;background:#eee0cf;border-radius:99px;overflow:hidden;margin-top:6px}.bar span{display:block;height:100%;background:var(--gold)}
+.tableCard{padding:0;overflow:hidden}.tableWrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:900px}th,td{padding:13px 15px;border-bottom:1px solid #f0e7df;text-align:left;vertical-align:top}th{background:#fff7eb;color:#766a5e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0}td.amount{font-weight:850;color:var(--red)}.pill{display:inline-block;border-radius:99px;background:#f4e7d4;padding:5px 9px;margin:2px;font-size:11px}.empty{text-align:center;color:var(--muted);padding:35px}
+.note{font-size:12px;color:var(--muted);line-height:1.5}.footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.cards,.grid2{grid-template-columns:1fr}.toolbar>*{width:100%;min-width:0}.header{padding-top:32px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="badge">Maa Durga Residence</div>
+  <h1>🌺 Sponsorship 2026</h1>
+  <p>Live Puja Sponsorship Dashboard</p>
+</header>
+
+<main class="wrap">
+  <div class="overlap">
+    <section class="cards">
+      <div class="card stat"><div class="label">Total Sponsorship</div><div class="value" id="total">₹0</div></div>
+      <div class="card stat"><div class="label">Sponsors</div><div class="value" id="sponsors">0</div></div>
+      <div class="card stat"><div class="label">Average / Sponsor</div><div class="value" id="average">₹0</div></div>
+      <div class="card stat"><div class="label">Last Refresh</div><div class="value" id="updated" style="font-size:18px">Loading…</div></div>
+    </section>
+
+    <section class="card progress">
+      <div class="progressHead"><span>Collection Progress</span><span id="percent">Set target below</span></div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+    </section>
+
+    <div class="toolbar">
+      <a class="btn primary" href="https://forms.gle/p815HuL5vY99qGqJ7" target="_blank" rel="noopener">➕ Submit Sponsorship</a>
+      <button class="btn secondary" onclick="loadData()">↻ Refresh</button>
+      <input class="input" id="search" placeholder="Search resident / flat / sponsorship…" oninput="render()">
+      <select class="select" id="category" onchange="render()"><option value="">All sponsorships</option></select>
+    </div>
+
+    <section class="grid2 section">
+      <div class="card">
+        <div class="sectionHead"><h2>🏆 Top Sponsors</h2></div>
+        <div class="list" id="topSponsors"></div>
+      </div>
+      <div class="card">
+        <div class="sectionHead"><h2>📊 Sponsorship Categories</h2></div>
+        <div class="list" id="categories"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sectionHead">
+        <h2>📋 Sponsorship Details</h2>
+        <span class="muted" id="shown"></span>
+      </div>
+      <div class="card tableCard">
+        <div class="tableWrap">
+          <table>
+            <thead><tr><th>Date</th><th>Resident</th><th>Flat</th><th>Sponsorship</th><th>Amount</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <p class="note" style="margin-top:14px">
+      The dashboard displays resident name/flat and sponsorship selections only. Mobile numbers and payment screenshots are intentionally not shown.
+      Amounts are read from the sponsorship selections submitted through the Google Form. This page is intended as a community contribution view, not a bank-payment verification system.
+    </p>
+  </div>
+</main>
+<footer class="footer">Maa Durga Residence • Sponsorship 2026</footer>
+
+<script>
+/*
+  SOURCE SHEET
+  Published Google Sheet:
+  https://docs.google.com/spreadsheets/d/e/2PACX-1vQH_KRmVZlavI1Te9hyu-ker2n0vO7lqdUDKbF_vdZh2KWDKnAyZlBVCdQxdo1pEhsuSOPcbWwvwANd/pubhtml
+
+  Original spreadsheet ID + response-tab GID are used for the live GViz feed.
+*/
+const SPREADSHEET_ID="1SVf7DBr_Mjtwj29bQ_dzR5UVCVCoiC0rhZbE9lLr-Ts";
+const SHEET_GID="454106339";
+const TARGET=0; // Put the community target here, e.g. 500000. 0 hides percentage.
+
+let records=[];
+
+const money=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:0}).format(Number(n)||0);
+const clean=s=>String(s??"").trim();
+const norm=s=>clean(s).toLowerCase().replace(/[^a-z0-9]+/g,"");
+const esc=s=>clean(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function parseAmount(v){
+  let s=clean(v).replace(/₹/g,"").replace(/,/g,"").trim();
+  // Supports values such as ₹2000, 2000, 25K, ₹25K, 2.5K
+  const k=s.match(/(-?\d+(?:\.\d+)?)\s*[kK]\b/);
+  if(k)return parseFloat(k[1])*1000;
+  const n=parseFloat(s.replace(/[^\d.-]/g,""));
+  return isNaN(n)?0:n;
+}
+function findCol(headers, names){
+  for(const name of names){
+    const i=headers.findIndex(h=>norm(h).includes(norm(name)));
+    if(i>=0)return i;
+  }
+  return -1;
+}
+function val(row,i){return i>=0 ? (row.c[i]?.f ?? row.c[i]?.v ?? "") : "";}
+
+function shortCategory(header){
+  const h=clean(header);
+  if(!h)return "Other";
+  const m=h.match(/^\s*\d+\.\s*(.*?)(?:\s*-\s*Multiple.*)?$/i);
+  let s=m?m[1]:h;
+  s=s.replace(/\s*-\s*Multiple.*$/i,"").trim();
+  return s.length>55?s.slice(0,52)+"…":s;
+}
+
+function render(){
+  const q=clean(document.getElementById("search").value).toLowerCase();
+  const cat=clean(document.getElementById("category").value);
+
+  const filtered=records.filter(r=>{
+    const text=[r.name,r.flat,r.date,...r.items.map(x=>x.category)].join(" ").toLowerCase();
+    return (!q||text.includes(q)) && (!cat||r.items.some(x=>x.category===cat));
+  });
+
+  const total=records.reduce((sum,r)=>sum+r.total,0);
+  const avg=records.length?total/records.length:0;
+  document.getElementById("total").textContent=money(total);
+  document.getElementById("sponsors").textContent=records.length;
+  document.getElementById("average").textContent=money(avg);
+  if(TARGET>0){
+    const pct=Math.min(100,total/TARGET*100);
+    document.getElementById("percent").textContent=pct.toFixed(0)+"% of "+money(TARGET);
+    document.getElementById("fill").style.width=pct+"%";
+  }else{
+    document.getElementById("percent").textContent="Target not configured";
+    document.getElementById("fill").style.width="0";
+  }
+
+  document.getElementById("shown").textContent=`Showing ${filtered.length} of ${records.length} sponsors`;
+
+  document.getElementById("rows").innerHTML=filtered.length ? filtered.map(r=>{
+    const items=r.items.map(x=>`<span class="pill">${esc(x.category)} — ${money(x.amount)}</span>`).join("");
+    return `<tr><td>${esc(r.date)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.flat)}</td><td>${items}</td><td class="amount">${money(r.total)}</td></tr>`;
+  }).join("") : `<tr><td colspan="5" class="empty">No sponsorship entries match your search.</td></tr>`;
+
+  const top=[...records].sort((a,b)=>b.total-a.total).slice(0,7);
+  document.getElementById("topSponsors").innerHTML=top.length ? top.map(r=>`<div class="row"><span>${esc(r.name)} <small class="muted">${esc(r.flat)}</small></span><strong>${money(r.total)}</strong></div>`).join("") : `<div class="empty">No data yet.</div>`;
+
+  const cats={};
+  records.forEach(r=>r.items.forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount));
+  const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  const max=entries.length?entries[0][1]:1;
+  document.getElementById("categories").innerHTML=entries.length ? entries.map(([k,v])=>`<div><div class="row"><span>${esc(k)}</span><strong>${money(v)}</strong></div><div class="bar"><span style="width:${v/max*100}%"></span></div></div>`).join("") : `<div class="empty">No data yet.</div>`;
+}
+
+async function loadData(){
+  document.getElementById("updated").textContent="Loading…";
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=out:json`;
+    const text=await fetch(url,{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Google Sheet feed unavailable");return r.text()});
+    const a=text.indexOf("{"),b=text.lastIndexOf("}");
+    if(a<0||b<0)throw Error("Unexpected Google response");
+    const json=JSON.parse(text.slice(a,b+1));
+    const headers=(json.table.cols||[]).map(c=>c.label||c.id||"");
+    const nameCol=findCol(headers,["Name & FLAT NO","Name and Flat","Name"]);
+    const dateCol=findCol(headers,["Timestamp"]);
+    const mobileCol=findCol(headers,["Mob Number","Mobile"]);
+    const sponsorCols=[];
+    headers.forEach((h,i)=>{
+      if(i!==nameCol&&i!==dateCol&&i!==mobileCol&&i>=3&&clean(h)&&!norm(h).includes("attachpaymentscreenshot")){
+        sponsorCols.push({i,header:h,category:shortCategory(h)});
+      }
+    });
+
+    records=(json.table.rows||[]).map(row=>{
+      const items=[];
+      sponsorCols.forEach(c=>{
+        const raw=val(row,c.i);
+        const amount=parseAmount(raw);
+        if(amount>0)items.push({category:c.category,amount});
+      });
+      const nf=clean(val(row,nameCol));
+      const parts=nf.split(/\s*,\s*/);
+      const name=parts.length>1?parts.slice(0,-1).join(", "):nf;
+      const flat=parts.length>1?parts[parts.length-1]:"";
+      return {date:clean(val(row,dateCol)),name,flat,items,total:items.reduce((s,x)=>s+x.amount,0)};
+    }).filter(r=>r.name||r.items.length);
+
+    const select=document.getElementById("category");
+    const old=select.value;
+    select.innerHTML='<option value="">All sponsorships</option>'+[...new Set(records.flatMap(r=>r.items.map(x=>x.category)))].sort().map(x=>`<option>${esc(x)}</option>`).join("");
+    if([...select.options].some(o=>o.value===old))select.value=old;
+
+    document.getElementById("updated").textContent=new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+    render();
+  }catch(e){
+    console.error(e);
+    records=[];
+    document.getElementById("updated").textContent="Connection issue";
+    document.getElementById("rows").innerHTML=`<tr><td colspan="5" class="empty"><strong>Could not read the published Google Sheet.</strong><br><br>Confirm that the response tab is still published to the web and then press Refresh.</td></tr>`;
+  }
+}
+loadData();
+setInterval(loadData,5*60*1000);
+</script>
+</body>
+</html>
