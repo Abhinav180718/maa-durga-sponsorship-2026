@@ -1,95 +1,131 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Happy Trails Durga Puja 2026</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f7f7f8;color:#222}
+:root{--accent:#8b1e3f;--bg:#f7f7f8;--card:#fff;--border:#e5e7eb;--muted:#6b7280}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#202124;font-family:Arial,Helvetica,sans-serif}
 header{background:linear-gradient(135deg,#8b1e3f,#c43d61);color:#fff;padding:28px 16px}
-.wrap{max-width:1100px;margin:auto;padding:0 14px}
-h1{margin:0 0 6px} .muted{color:#666;font-size:13px}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
-.card,.panel{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:16px;box-shadow:0 2px 8px #00000008}
-.label{font-size:11px;color:#777;text-transform:uppercase} .value{font-size:24px;font-weight:bold;margin-top:6px}
-.panel{margin-bottom:16px} .tools{display:flex;gap:8px;flex-wrap:wrap}
-input,select,button{padding:10px;border:1px solid #ddd;border-radius:8px;background:#fff}
-input{flex:1;min-width:220px}button{background:#8b1e3f;color:#fff;cursor:pointer}
-.table{overflow:auto} table{width:100%;border-collapse:collapse;min-width:700px}
-th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top;font-size:13px}th{background:#fafafa}
-.err{display:none;background:#fff3cd;padding:12px;border-radius:8px;margin:12px 0}
-@media(max-width:700px){.cards{grid-template-columns:1fr 1fr}h1{font-size:24px}}
-</style>
-</head>
+.wrap{max-width:1150px;margin:auto;padding:0 14px}h1{margin:0 0 6px;font-size:29px}
+.status{font-size:13px;opacity:.9;margin-top:10px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.card,.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 2px 8px #00000008}
+.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.value{font-size:24px;font-weight:700;margin-top:6px}
+.panel{margin-bottom:16px}.panel h2{margin:0 0 12px;font-size:19px}.tools{display:flex;gap:8px;flex-wrap:wrap}
+input,select,button{padding:10px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;font-size:14px}input{flex:1;min-width:220px}button{background:var(--accent);color:#fff;border-color:var(--accent);cursor:pointer}
+.charts{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}canvas{width:100%;height:300px;display:block}
+.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top;font-size:13px}th{background:#fafafa;position:sticky;top:0}
+.muted{color:var(--muted);font-size:13px}.err{display:none;background:#fff3cd;color:#664d03;padding:12px;border-radius:8px;margin:12px 0}
+@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.charts{grid-template-columns:1fr}h1{font-size:24px}}
+</style></head>
 <body>
-<header><div class="wrap"><h1>Happy Trails Durga Puja 2026</h1><div>Residents Sponsorship Dashboard</div><div id="status" style="margin-top:10px;font-size:13px">Loading…</div></div></header>
+<header><div class="wrap"><h1>Happy Trails Durga Puja 2026</h1><div>Community Sponsorship Dashboard</div><div id="status" class="status">Loading latest sponsorship data…</div></div></header>
 <main class="wrap">
 <div id="err" class="err"></div>
 <section class="cards">
 <div class="card"><div class="label">Total Sponsorship</div><div id="total" class="value">₹0</div></div>
 <div class="card"><div class="label">Sponsors</div><div id="sponsors" class="value">0</div></div>
 <div class="card"><div class="label">Entries</div><div id="entries" class="value">0</div></div>
-<div class="card"><div class="label">Average</div><div id="avg" class="value">₹0</div></div>
+<div class="card"><div class="label">Average Entry</div><div id="avg" class="value">₹0</div></div>
 </section>
-<section class="panel">
-<div class="tools"><input id="q" placeholder="Search resident, flat or sponsorship…"><select id="cat"><option value="">All categories</option></select><button onclick="load(true)">Refresh</button></div>
+
+<section class="panel"><h2>Daily Collection</h2><div class="muted">Daily sponsorship amount and cumulative collection. Hover/tap the chart for details.</div>
+<div class="charts"><div><canvas id="dailyChart"></canvas></div><div><canvas id="countChart"></canvas></div></div></section>
+
+<section class="panel"><h2>Explore Sponsorships</h2>
+<div class="tools"><input id="q" placeholder="Search resident, flat or sponsorship…"><select id="cat"><option value="">All categories</option></select><button id="refresh">Refresh</button></div>
 </section>
-<section class="panel"><h2>Sponsorship Details</h2><div id="loading" class="muted">Fetching live data…</div><div class="table"><table><thead><tr><th>Date</th><th>Resident / Flat</th><th>Category</th><th>Sponsorship</th><th>Amount</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+
+<section class="panel"><h2>Sponsorship Details</h2><div id="loading" class="muted">Fetching live data…</div>
+<div class="table"><table><thead><tr><th>Date</th><th>Resident / Flat</th><th>Category</th><th>Sponsorship</th><th>Amount</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+
 <section class="panel"><h2>Category Totals</h2><div id="cats" class="muted">Loading…</div></section>
 </main>
+
 <script>
 const API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRa0TTTTg6PYdRVgcgxuQ4YUAvFObRoItX1rWtYkhbDI_jDLCKi2Itu_QrUP8kmBLdwwnoAvLfR6343701MD-uFT36E8EFuOI3-Yl7nVacPJKveSqPigmlx4g7b-QJeS5OnXoIPpJnQTnZ8VYv08XxSf0pfBHMDDlQZBj0B-Lps5MOWBgX00EZiwwBk5FbE3Wjn9iXTUC0tQ1NjbBAFbCNxIbGrWjZqr-hcGBkTXnXr8sFylV9h0myXKKnJF5IGVKT2WxzV_3JhwDU573jelk80TEFi8w&lib=M8qGv1nKpNFyrAXvebTACHMzbBMI2do0S';
-const CACHE="happy_trails_puja_cache_v1";
-let entries=[];
+const CACHE="happy_trails_puja_cache_v3";
+let entries=[], daily=[], hoverDaily=-1;
+
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 
 function amount(s){
  let t=0,x=String(s||"").replace(/,/g,""),m;
- m=x.match(/₹\s*(\d+(?:\.\d+)?)/gi)||[]; m.forEach(v=>t+=parseFloat(v.replace(/[₹\s]/g,""))||0);
- m=x.match(/(\d+(?:\.\d+)?)\s*K\b/gi)||[]; m.forEach(v=>t+=(parseFloat(v)||0)*1000);
+ m=x.match(/₹\s*(\d+(?:\.\d+)?)/gi)||[];m.forEach(v=>t+=parseFloat(v.replace(/[₹\s]/g,""))||0);
+ m=x.match(/(\d+(?:\.\d+)?)\s*K\b/gi)||[];m.forEach(v=>t+=(parseFloat(v)||0)*1000);
  return t;
 }
+function dayKey(v){
+ if(!v)return null;
+ const d=new Date(v);
+ if(!isNaN(d))return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+ const m=String(v).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+ if(m)return m[3].length===2?"20"+m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0"):m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0");
+ return null;
+}
+function labelDay(k){
+ const [y,m,d]=k.split("-").map(Number);
+ return new Date(y,m-1,d).toLocaleDateString("en-IN",{day:"2-digit",month:"short"});
+}
 function makeEntries(r){
- const data=Array.isArray(r.data)?r.data:[], h=Array.isArray(r.headers)?r.headers:Object.keys(data[0]||{});
+ const data=Array.isArray(r.data)?r.data:[],h=Array.isArray(r.headers)?r.headers:Object.keys(data[0]||{});
  const skip=new Set(["Timestamp","Mob Number","Mobile Number","Attach Payment screenshot (if possible)"]);
  let out=[];
  data.forEach(row=>h.forEach(k=>{
-   if(skip.has(k)||!String(row[k]??"").trim()) return;
-   out.push({date:row["Timestamp"]||"",person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",category:k,text:String(row[k]),amount:amount(row[k])});
+   if(skip.has(k)||!String(row[k]??"").trim())return;
+   out.push({date:row["Timestamp"]||"",day:dayKey(row["Timestamp"]),person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",category:k,text:String(row[k]),amount:amount(row[k])});
  }));
  return out;
 }
+function buildDaily(){
+ const map={};
+ entries.forEach(x=>{if(!x.day)return;if(!map[x.day])map[x.day]={amount:0,count:0};map[x.day].amount+=x.amount;map[x.day].count++;});
+ let cumulative=0;
+ daily=Object.keys(map).sort().map(day=>{cumulative+=map[day].amount;return {day,amount:map[day].amount,count:map[day].count,cumulative};});
+}
+function drawCharts(){
+ drawLine($("dailyChart"),daily.map(x=>labelDay(x.day)),daily.map(x=>x.amount), "Daily collection", true);
+ drawBars($("countChart"),daily.map(x=>labelDay(x.day)),daily.map(x=>x.count), "Daily entries");
+}
+function fit(c){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=Math.max(300,r.width*d);c.height=300*d;return c.getContext("2d");}
+function drawLine(c,labels,vals,title,moneyMode){
+ const ctx=fit(c),w=c.width/(devicePixelRatio||1),h=c.height/(devicePixelRatio||1),d=devicePixelRatio||1;
+ ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!vals.length)return;
+ const pad={l:52,r:15,t:28,b:42},max=Math.max(...vals,1),min=0,plotW=w-pad.l-pad.r,plotH=h-pad.t-pad.b;
+ ctx.font="12px Arial";ctx.fillStyle="#6b7280";
+ for(let i=0;i<=4;i++){const y=pad.t+plotH*i/4,v=max-(max-min)*i/4;ctx.strokeStyle="#eee";ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(moneyMode?money(v):Math.round(v),5,y+4);}
+ ctx.strokeStyle="#8b1e3f";ctx.lineWidth=2;ctx.beginPath();
+ vals.forEach((v,i)=>{const x=pad.l+(vals.length===1?plotW/2:i*plotW/(vals.length-1)),y=pad.t+plotH-(v/max)*plotH;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+ ctx.stroke();
+ vals.forEach((v,i)=>{const x=pad.l+(vals.length===1?plotW/2:i*plotW/(vals.length-1)),y=pad.t+plotH-(v/max)*plotH;ctx.fillStyle="#8b1e3f";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();if(i===vals.length-1||vals.length<=8){ctx.fillStyle="#555";ctx.fillText(labels[i],x-18,h-14);}});
+ ctx.fillStyle="#222";ctx.font="bold 13px Arial";ctx.fillText(title,pad.l,16);
+}
+function drawBars(c,labels,vals,title){
+ const ctx=fit(c),w=c.width/(devicePixelRatio||1),h=c.height/(devicePixelRatio||1),d=devicePixelRatio||1;ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!vals.length)return;
+ const pad={l:38,r:12,t:28,b:42},max=Math.max(...vals,1),pw=w-pad.l-pad.r,ph=h-pad.t-pad.b,bw=Math.max(8,pw/vals.length*.65);
+ ctx.font="12px Arial";ctx.fillStyle="#6b7280";
+ for(let i=0;i<=4;i++){const y=pad.t+ph*i/4,v=max*(1-i/4);ctx.strokeStyle="#eee";ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(Math.round(v),8,y+4);}
+ vals.forEach((v,i)=>{const x=pad.l+i*pw/vals.length+(pw/vals.length-bw)/2,hh=(v/max)*ph;ctx.fillStyle="#d97706";ctx.fillRect(x,pad.t+ph-hh,bw,hh);if(vals.length<=8){ctx.fillStyle="#555";ctx.fillText(labels[i],x-8,h-14);}});
+ ctx.fillStyle="#222";ctx.font="bold 13px Arial";ctx.fillText(title,pad.l,16);
+}
 function render(){
- const q=$("q").value.toLowerCase(), c=$("cat").value;
+ const q=$("q").value.toLowerCase(),c=$("cat").value;
  const a=entries.filter(x=>(!q||(`${x.person} ${x.category} ${x.text}`).toLowerCase().includes(q))&&(!c||x.category===c));
  $("rows").innerHTML=a.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.person)}</td><td>${esc(x.category)}</td><td>${esc(x.text)}</td><td><b>${x.amount?money(x.amount):"—"}</b></td></tr>`).join("")||'<tr><td colspan="5">No matching entries.</td></tr>';
- const total=entries.reduce((s,x)=>s+x.amount,0), people=new Set(entries.map(x=>x.person));
- $("total").textContent=money(total); $("sponsors").textContent=people.size; $("entries").textContent=entries.length; $("avg").textContent=money(entries.length?total/entries.length:0);
- const cats={}; entries.forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
+ const total=entries.reduce((s,x)=>s+x.amount,0),people=new Set(entries.map(x=>x.person));
+ $("total").textContent=money(total);$("sponsors").textContent=people.size;$("entries").textContent=entries.length;$("avg").textContent=money(entries.length?total/entries.length:0);
+ const cats={};entries.forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
  $("cats").innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(x=>`<div style="margin:7px 0"><b>${esc(x[0])}</b> — ${money(x[1])}</div>`).join("")||"No data";
- $("loading").style.display="none";
+ $("loading").style.display="none";buildDaily();drawCharts();
 }
-function categories(){
- const a=[...new Set(entries.map(x=>x.category))].sort();
- $("cat").innerHTML='<option value="">All categories</option>'+a.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");
-}
+function categories(){const a=[...new Set(entries.map(x=>x.category))].sort();$("cat").innerHTML='<option value="">All categories</option>'+a.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");}
 async function load(force=false){
  if(!force)try{const c=JSON.parse(localStorage.getItem(CACHE)||"null");if(c){entries=makeEntries(c);categories();render();$("status").textContent="Showing cached data while checking for updates…"}}catch(e){}
- const ctl=new AbortController(), timer=setTimeout(()=>ctl.abort(),10000);
- try{
-   const r=await fetch(API_URL,{cache:"no-store",signal:ctl.signal});
-   if(!r.ok)throw Error("HTTP "+r.status);
-   const j=await r.json(); if(!j.success)throw Error(j.error||"API error");
-   localStorage.setItem(CACHE,JSON.stringify(j)); entries=makeEntries(j); categories(); render();
-   $("status").textContent="Live data updated • "+new Date().toLocaleTimeString();
-   $("err").style.display="none";
- }catch(e){
-   $("status").textContent="Showing latest available data";
-   if(!entries.length){$("err").textContent="Could not load live sponsorship data. Please try Refresh.";$("err").style.display="block";}
- }finally{clearTimeout(timer)}
-}
-$("q").addEventListener("input",render); $("cat").addEventListener("change",render); load(false); setInterval(()=>load(false),300000);
-</script>
-</body></html>
+ const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),10000);
+ try{const r=await fetch(API_URL,{cache:"no-store",signal:ctl.signal});if(!r.ok)throw Error("HTTP "+r.status);const j=await r.json();if(!j.success)throw Error(j.error||"API error");localStorage.setItem(CACHE,JSON.stringify(j));entries=makeEntries(j);categories();render();$("status").textContent="Live data updated • "+new Date().toLocaleTimeString();$("err").style.display="none";}
+ catch(e){if(!entries.length){$("err").textContent="Could not load live sponsorship data. Please try Refresh.";$("err").style.display="block";}$("status").textContent="Showing latest available data";}
+ finally{clearTimeout(timer)}}
+$("q").addEventListener("input",render);$("cat").addEventListener("change",render);$("refresh").addEventListener("click",()=>load(true));window.addEventListener("resize",()=>daily.length&&drawCharts());load(false);setInterval(()=>load(false),300000);
+</script></body></html>
