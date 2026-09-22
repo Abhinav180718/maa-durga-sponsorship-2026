@@ -37,7 +37,7 @@ input,select,button{padding:10px 12px;border:1px solid #ddd;border-radius:8px;ba
 </section>
 
 <section class="panel"><h2>Sponsorship Details</h2><div id="loading" class="muted">Fetching live data…</div>
-<div class="table"><table><thead><tr><th>Date</th><th>Resident / Flat</th><th>Category</th><th>Sponsorship</th><th>Amount</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<div class="table"><table><thead><tr><th>Date</th><th>Resident / Flat</th><th>Mobile Number</th><th>Category</th><th>Sponsorship ↕</th><th>Amount</th></tr></thead><tbody id="rows"></tbody></table></div></section>
 
 <section class="panel"><h2>Category Totals</h2><div id="cats" class="muted">Loading…</div></section>
 </main>
@@ -114,7 +114,7 @@ function makeEntries(r){
    const parsedAmount=amount(row[k]);
    // Do not display non-sponsorship/blank rows. Only actual ₹ amounts count.
    if(parsedAmount<=0)return;
-   out.push({date:row["Timestamp"]||"",day:dayKey(row["Timestamp"]),person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",category:k,text:String(row[k]),amount:parsedAmount});
+   out.push({date:row["Timestamp"]||"",day:dayKey(row["Timestamp"]),person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",mobile:row["Mob Number"]||row["Mobile Number"]||"",category:k,text:String(row[k]),amount:parsedAmount});
  }));
  return out;
 }
@@ -149,10 +149,21 @@ function drawBars(c,labels,vals,title){
  vals.forEach((v,i)=>{const x=pad.l+i*pw/vals.length+(pw/vals.length-bw)/2,hh=(v/max)*ph;ctx.fillStyle="#d97706";ctx.fillRect(x,pad.t+ph-hh,bw,hh);if(vals.length<=8){ctx.fillStyle="#555";ctx.fillText(labels[i],x-8,h-14);}});
  ctx.fillStyle="#222";ctx.font="bold 13px Arial";ctx.fillText(title,pad.l,16);
 }
+let sponsorshipSortAsc=true;
+function sortBySponsorship(list){
+  return [...list].sort((a,b)=>{
+    const aa=String(a.text||"").toLowerCase(), bb=String(b.text||"").toLowerCase();
+    const cmp=aa.localeCompare(bb,undefined,{numeric:true,sensitivity:"base"});
+    if(cmp!==0) return sponsorshipSortAsc?cmp:-cmp;
+    return (b.amount||0)-(a.amount||0);
+  });
+}
+
 function render(){
  const q=$("q").value.toLowerCase(),c=$("cat").value;
- const a=entries.filter(x=>(!q||(`${x.person} ${x.category} ${x.text}`).toLowerCase().includes(q))&&(!c||x.category===c));
- $("rows").innerHTML=a.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.person)}</td><td>${esc(x.category)}</td><td>${esc(x.text)}</td><td><b>${x.amount?money(x.amount):"—"}</b></td></tr>`).join("")||'<tr><td colspan="5">No matching entries.</td></tr>';
+ let a=entries.filter(x=>(!q||(`${x.person} ${x.mobile} ${x.category} ${x.text}`).toLowerCase().includes(q))&&(!c||x.category===c));
+ a=sortBySponsorship(a);
+ $("rows").innerHTML=a.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.person)}</td><td>${esc(x.mobile||"—")}</td><td>${esc(x.category)}</td><td>${esc(x.text)}</td><td><b>${x.amount?money(x.amount):"—"}</b></td></tr>`).join("")||'<tr><td colspan="6">No matching entries.</td></tr>';
  const total=entries.reduce((s,x)=>s+x.amount,0),people=new Set(entries.map(x=>x.person));
  $("total").textContent=money(total);$("sponsors").textContent=people.size;$("entries").textContent=entries.length;$("avg").textContent=money(entries.length?total/entries.length:0);
  const cats={};entries.forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
