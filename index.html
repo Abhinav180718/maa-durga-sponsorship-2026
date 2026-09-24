@@ -1,181 +1,1714 @@
 <!doctype html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Happy Trails Durga Puja 2026</title>
+
 <style>
-:root{--accent:#8b1e3f;--bg:#f7f7f8;--card:#fff;--border:#e5e7eb;--muted:#6b7280}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#202124;font-family:Arial,Helvetica,sans-serif}
-header{background:linear-gradient(135deg,#8b1e3f,#c43d61);color:#fff;padding:28px 16px}
-.wrap{max-width:1150px;margin:auto;padding:0 14px}h1{margin:0 0 6px;font-size:29px}
-.status{font-size:13px;opacity:.9;margin-top:10px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
-.card,.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 2px 8px #00000008}
-.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.value{font-size:24px;font-weight:700;margin-top:6px}
-.panel{margin-bottom:16px}.panel h2{margin:0 0 12px;font-size:19px}.tools{display:flex;gap:8px;flex-wrap:wrap}
-input,select,button{padding:10px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;font-size:14px}input{flex:1;min-width:220px}button{background:var(--accent);color:#fff;border-color:var(--accent);cursor:pointer}
-.charts{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}canvas{width:100%;height:300px;display:block}
-.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top;font-size:13px}th{background:#fafafa;position:sticky;top:0}
-.muted{color:var(--muted);font-size:13px}.err{display:none;background:#fff3cd;color:#664d03;padding:12px;border-radius:8px;margin:12px 0}
-@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.charts{grid-template-columns:1fr}h1{font-size:24px}}
-</style></head>
+:root{
+  --accent:#8b1e3f;
+  --accent2:#c43d61;
+  --gold:#d89b28;
+  --bg:#f7f5f2;
+  --card:#ffffff;
+  --border:#eadfe2;
+  --muted:#737373;
+  --text:#272124;
+  --green:#2e7d5b;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:linear-gradient(180deg,#faf8f6 0%,#f5f2ef 100%);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.wrap{
+  max-width:1180px;
+  margin:auto;
+  padding:0 16px;
+}
+
+/* HEADER */
+
+header{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(255,255,255,.16),transparent 25%),
+    radial-gradient(circle at 85% 80%,rgba(255,214,100,.13),transparent 25%),
+    linear-gradient(135deg,#761630,#a9264e 55%,#c43d61);
+  color:#fff;
+  padding:34px 16px 30px;
+  position:relative;
+  overflow:hidden;
+}
+
+header:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:4px;
+  background:linear-gradient(90deg,#d79b2b,#f0c15c,#d79b2b);
+}
+
+.hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.hero-text h1{
+  margin:0 0 8px;
+  font-size:32px;
+  line-height:1.15;
+  letter-spacing:-.5px;
+}
+
+.hero-text .subtitle{
+  font-size:16px;
+  opacity:.94;
+}
+
+.live-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:15px;
+  padding:7px 11px;
+  border-radius:30px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.22);
+  font-size:12px;
+}
+
+.live-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#78e0a7;
+  box-shadow:0 0 0 4px rgba(120,224,167,.15);
+}
+
+/* MAIN */
+
+main{
+  padding-top:22px;
+  padding-bottom:30px;
+}
+
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(70,30,40,.05);
+}
+
+.panel h2{
+  margin:0 0 7px;
+  font-size:20px;
+}
+
+.section-subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+  margin-bottom:15px;
+}
+
+/* WELCOME */
+
+.welcome{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  background:linear-gradient(135deg,#fff9f2,#fff);
+}
+
+.welcome-text{
+  min-width:0;
+}
+
+.welcome-title{
+  font-size:21px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.welcome-copy{
+  color:#666;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.puja-symbol{
+  flex:0 0 auto;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff4d9;
+  border:1px solid #efd89d;
+  font-size:36px;
+}
+
+/* CHARTS */
+
+.charts{
+  display:grid;
+  grid-template-columns:1.55fr 1fr;
+  gap:16px;
+}
+
+.chart-card{
+  border:1px solid #eee5e2;
+  border-radius:14px;
+  padding:12px;
+  background:#fffdfa;
+}
+
+.chart-title{
+  font-weight:700;
+  font-size:14px;
+  margin:2px 4px 8px;
+}
+
+canvas{
+  width:100%;
+  height:285px;
+  display:block;
+}
+
+/* SEARCH */
+
+.tools{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+input,select,button{
+  min-height:44px;
+  padding:10px 13px;
+  border:1px solid #ddd4d7;
+  border-radius:10px;
+  background:#fff;
+  font-size:14px;
+  color:var(--text);
+}
+
+input{
+  flex:1;
+  min-width:240px;
+}
+
+input:focus,select:focus{
+  outline:3px solid rgba(139,30,63,.12);
+  border-color:var(--accent);
+}
+
+button{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+  cursor:pointer;
+  font-weight:600;
+  min-width:100px;
+}
+
+button:hover{
+  background:#741730;
+}
+
+button:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.filter-hint{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow:auto;
+  border:1px solid #eee7e7;
+  border-radius:12px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:800px;
+}
+
+th,td{
+  padding:12px 11px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  vertical-align:middle;
+  font-size:13px;
+}
+
+th{
+  background:#faf7f7;
+  position:sticky;
+  top:0;
+  z-index:2;
+  color:#5c4c51;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+
+tbody tr:hover{
+  background:#fff9fa;
+}
+
+tbody tr:last-child td{
+  border-bottom:0;
+}
+
+.amount{
+  font-weight:700;
+  color:var(--accent);
+  white-space:nowrap;
+}
+
+.category-badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  background:#f8eef1;
+  color:#7c2441;
+  font-size:11px;
+  font-weight:600;
+}
+
+.mobile{
+  white-space:nowrap;
+}
+
+/* CATEGORY TOTALS */
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:11px;
+}
+
+.category-card{
+  border:1px solid #eee3e5;
+  border-radius:13px;
+  padding:14px;
+  background:linear-gradient(135deg,#fff,#fffafa);
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.category-card:hover{
+  transform:translateY(-2px);
+  border-color:#dcb4bf;
+  box-shadow:0 5px 14px rgba(100,30,50,.07);
+}
+
+.category-name{
+  color:#666;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.category-amount{
+  font-size:18px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+/* BOTTOM SUMMARY */
+
+.summary-section{
+  margin-top:28px;
+  padding:24px;
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(255,255,255,.13),transparent 25%),
+    linear-gradient(135deg,#74162f,#a82a50);
+  color:#fff;
+  box-shadow:0 8px 24px rgba(93,21,40,.16);
+}
+
+.summary-heading{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.summary-heading h2{
+  margin:0 0 5px;
+  font-size:21px;
+}
+
+.summary-heading p{
+  margin:0;
+  font-size:13px;
+  opacity:.82;
+}
+
+.summary-cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.summary-card{
+  padding:17px 14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.16);
+  text-align:center;
+  backdrop-filter:blur(4px);
+}
+
+.summary-card .summary-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  opacity:.78;
+}
+
+.summary-card .summary-value{
+  font-size:25px;
+  font-weight:700;
+  margin-top:7px;
+}
+
+/* THANK YOU */
+
+.thanks{
+  text-align:center;
+  padding:25px 15px 10px;
+}
+
+.thanks-symbol{
+  font-size:30px;
+  margin-bottom:7px;
+}
+
+.thanks h2{
+  margin:0 0 7px;
+  font-size:20px;
+}
+
+.thanks p{
+  margin:0 auto;
+  max-width:650px;
+  color:#686868;
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* STATUS */
+
+.status{
+  font-size:12px;
+  opacity:.9;
+  margin-top:9px;
+}
+
+.err{
+  display:none;
+  background:#fff3cd;
+  color:#664d03;
+  border:1px solid #f2d78b;
+  padding:12px;
+  border-radius:10px;
+  margin:12px 0;
+  font-size:13px;
+}
+
+.empty{
+  text-align:center;
+  color:#777;
+  padding:25px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+  .charts{
+    grid-template-columns:1fr;
+  }
+
+  .category-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .summary-cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px){
+  header{
+    padding:27px 15px 25px;
+  }
+
+  .hero{
+    display:block;
+  }
+
+  .hero-text h1{
+    font-size:25px;
+  }
+
+  .hero-text .subtitle{
+    font-size:14px;
+  }
+
+  main{
+    padding-top:14px;
+  }
+
+  .panel{
+    padding:15px;
+    border-radius:15px;
+  }
+
+  .welcome{
+    align-items:flex-start;
+  }
+
+  .puja-symbol{
+    width:54px;
+    height:54px;
+    font-size:27px;
+  }
+
+  input{
+    min-width:100%;
+  }
+
+  select,button{
+    flex:1;
+  }
+
+  canvas{
+    height:240px;
+  }
+
+  .category-grid{
+    grid-template-columns:1fr;
+  }
+
+  .summary-section{
+    padding:18px 12px;
+    border-radius:17px;
+  }
+
+  .summary-cards{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .summary-card{
+    padding:14px 8px;
+  }
+
+  .summary-card .summary-value{
+    font-size:20px;
+  }
+
+  .summary-card .summary-label{
+    font-size:9px;
+  }
+}
+</style>
+
+</head>
+
 <body>
-<header><div class="wrap"><h1>Happy Trails Durga Puja 2026</h1><div>Residents Sponsorship Dashboard</div><div id="status" class="status">Loading latest sponsorship data…</div></div></header>
+
+<header>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-text">
+        <h1>🙏 Happy Trails Durga Puja 2026</h1>
+        <div class="subtitle">Residents Sponsorship Dashboard</div>
+        <div class="live-pill">
+          <span class="live-dot"></span>
+          <span id="status">Loading latest sponsorship data…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
 <main class="wrap">
+
 <div id="err" class="err"></div>
-<section class="cards">
-<div class="card"><div class="label">Total Sponsorship</div><div id="total" class="value">₹0</div></div>
-<div class="card"><div class="label">Sponsors</div><div id="sponsors" class="value">0</div></div>
-<div class="card"><div class="label">Entries</div><div id="entries" class="value">0</div></div>
-<div class="card"><div class="label">Average Entry</div><div id="avg" class="value">₹0</div></div>
+
+<!-- WELCOME -->
+
+<section class="panel welcome">
+  <div class="welcome-text">
+    <div class="welcome-title">Together, let's make Durga Puja special ❤️</div>
+    <div class="welcome-copy">
+      View the latest sponsorship contributions from Happy Trails residents.
+      You can search by resident, flat number, mobile number or sponsorship category.
+    </div>
+  </div>
+  <div class="puja-symbol">🪔</div>
 </section>
 
-<section class="panel"><h2>Daily Collection</h2><div class="muted">Daily sponsorship collection. Budget amounts shown in sponsorship descriptions are not included.</div>
-<div class="charts"><div><canvas id="dailyChart"></canvas></div><div><canvas id="countChart"></canvas></div></div></section>
+<!-- DAILY COLLECTION -->
 
-<section class="panel"><h2>Explore Sponsorships</h2>
-<div class="tools"><input id="q" placeholder="Search resident, flat or sponsorship…"><select id="cat"><option value="">All categories</option></select><button id="refresh">Refresh</button></div>
+<section class="panel">
+  <h2>📈 Daily Collection</h2>
+  <div class="section-subtitle">
+    Track how the Puja sponsorship collection is growing day by day.
+    Budget amounts mentioned in sponsorship descriptions are not included.
+  </div>
+
+  <div class="charts">
+
+```
+<div class="chart-card">
+  <div class="chart-title">Daily Sponsorship Collection</div>
+  <canvas id="dailyChart"></canvas>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Daily Sponsorship Entries</div>
+  <canvas id="countChart"></canvas>
+</div>
+```
+
+  </div>
 </section>
 
-<section class="panel"><h2>Sponsorship Details</h2><div id="loading" class="muted">Fetching live data…</div>
-<div class="table"><table><thead><tr><th>Date</th><th>Resident / Flat</th><th>Mobile Number</th><th>Category</th><th>Sponsorship ↕</th><th>Amount</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<!-- SEARCH -->
 
-<section class="panel"><h2>Category Totals</h2><div id="cats" class="muted">Loading…</div></section>
+<section class="panel">
+
+  <h2>🔎 Explore Sponsorships</h2>
+
+  <div class="section-subtitle">
+    Search the sponsorship list or select a category to quickly find a contribution.
+  </div>
+
+  <div class="tools">
+
+```
+<input
+  id="q"
+  placeholder="Search resident, flat, mobile or sponsorship…"
+  aria-label="Search sponsorships"
+>
+
+<select id="cat" aria-label="Filter by category">
+  <option value="">All categories</option>
+</select>
+
+<button id="refresh" type="button">
+  ↻ Refresh
+</button>
+```
+
+  </div>
+
+  <div id="filterHint" class="filter-hint">
+    Showing all sponsorship entries
+  </div>
+
+</section>
+
+<!-- SPONSORSHIP DETAILS -->
+
+<section class="panel">
+
+  <h2>🧾 Sponsorship Details</h2>
+
+  <div class="section-subtitle">
+    Thank you to every resident contributing towards Happy Trails Durga Puja 2026.
+  </div>
+
+  <div id="loading" class="muted">
+    Fetching live data…
+  </div>
+
+  <div class="table-wrap">
+
+```
+<table>
+
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Resident / Flat</th>
+      <th>Mobile Number</th>
+      <th>Category</th>
+      <th>Sponsorship ↕</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+
+  <tbody id="rows"></tbody>
+
+</table>
+```
+
+  </div>
+
+</section>
+
+<!-- CATEGORY TOTALS -->
+
+<section class="panel">
+
+  <h2>🏷️ Sponsorship by Category</h2>
+
+  <div class="section-subtitle">
+    Tap any category below to filter the sponsorship list.
+  </div>
+
+  <div id="cats" class="category-grid">
+    <div class="muted">Loading…</div>
+  </div>
+
+</section>
+
+<!-- BOTTOM SUMMARY -->
+
+<section class="summary-section">
+
+  <div class="summary-heading">
+    <h2>🌺 Durga Puja 2026 Collection Summary</h2>
+    <p>Thank you to all Happy Trails residents for your wonderful support.</p>
+  </div>
+
+  <div class="summary-cards">
+
+```
+<div class="summary-card">
+  <div class="summary-label">Total Sponsorship</div>
+  <div id="total" class="summary-value">₹0</div>
+</div>
+
+<div class="summary-card">
+  <div class="summary-label">Sponsors</div>
+  <div id="sponsors" class="summary-value">0</div>
+</div>
+
+<div class="summary-card">
+  <div class="summary-label">Entries</div>
+  <div id="entries" class="summary-value">0</div>
+</div>
+
+<div class="summary-card">
+  <div class="summary-label">Average Entry</div>
+  <div id="avg" class="summary-value">₹0</div>
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- THANK YOU -->
+
+<section class="thanks">
+
+  <div class="thanks-symbol">🙏</div>
+
+  <h2>Thank You, Happy Trails!</h2>
+
+  <p>
+    Every contribution helps us come together and celebrate Maa Durga
+    with the spirit of community, devotion and togetherness.
+  </p>
+
+</section>
+
 </main>
 
 <script>
-const API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRa0TTTTg6PYdRVgcgxuQ4YUAvFObRoItX1rWtYkhbDI_jDLCKi2Itu_QrUP8kmBLdwwnoAvLfR6343701MD-uFT36E8EFuOI3-Yl7nVacPJKveSqPigmlx4g7b-QJeS5OnXoIPpJnQTnZ8VYv08XxSf0pfBHMDDlQZBj0B-Lps5MOWBgX00EZiwwBk5FbE3Wjn9iXTUC0tQ1NjbBAFbCNxIbGrWjZqr-hcGBkTXnXr8sFylV9h0myXKKnJF5IGVKT2WxzV_3JhwDU573jelk80TEFi8w&lib=M8qGv1nKpNFyrAXvebTACHMzbBMI2do0S';
-const CACHE="happy_trails_puja_cache_v3";
-let entries=[], daily=[], hoverDaily=-1;
 
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const money=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
+const API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRa0TTTTg6PYdRVgcgxuQ4YUAvFObRoItX1rWtYkhbDI_jDLCKi2Itu_QrUP8kmBLdwwnoAvLfR6343701MD-uFT36E8EFuOI3-Yl7nVacPJKveSqPigmlx4g7b-QJeS5OnXoIPpJnQTnZ8VYv08XxSf0pfBHMDDlQZBj0B-Lps5MOWBgX00EZiwwBk5FbE3Wjn9iXTUC0tQ1NjbBAFbCNxIbGrWjZqr-hcGBkTXnXr8sFylV9h0myXKKnJF5IGVKT2WxzV_3JhwDU573jelk80TEFi8w&lib=M8qGv1nKpNFyrAXvebTACHMzbBMI2do0S';
+
+const CACHE = "happy_trails_puja_cache_v3";
+
+let entries = [];
+let daily = [];
+
+const $ = id => document.getElementById(id);
+
+const esc = s =>
+  String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+
+const money = n =>
+  "₹" + Math.round(n || 0).toLocaleString("en-IN");
+
+
+/* --------------------------------
+   AMOUNT PARSER
+-------------------------------- */
 
 function amount(s){
-  // Count ONLY the actual sponsorship amount(s) marked with ₹.
-  // Explicit "Budget" amounts are excluded, e.g.
-  // "Durga Saptashati Path ₹1101 (Budget 25K)" -> ₹1101 only.
+
   if(!s) return 0;
 
   let text = String(s).replace(/,/g,"");
 
-  // Remove budget portions before extracting amounts.
-  // Handles: Budget 25K, Budget ₹25K, Budget 25000,
-  // and budget text inside parentheses.
   text = text.replace(
     /\(?\s*Budget\s*:?\s*₹?\s*\d+(?:\.\d+)?\s*[Kk]?\s*\)?/gi,
     ""
   );
 
-  // Extract only rupee-denominated amounts.
-  const matches = text.match(/₹\s*\d+(?:\.\d+)?/g) || [];
+  const matches =
+    text.match(/₹\s*\d+(?:\.\d+)?/g) || [];
 
-  return matches.reduce((total, value) => {
-    return total + (parseFloat(value.replace(/[₹\s]/g,"")) || 0);
-  }, 0);
+  return matches.reduce((total,value) => {
+
+    return total +
+      (parseFloat(value.replace(/[₹\s]/g,"")) || 0);
+
+  },0);
 }
+
+
+/* --------------------------------
+   DATE
+-------------------------------- */
+
 function dayKey(v){
- if(!v)return null;
- const d=new Date(v);
- if(!isNaN(d))return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
- const m=String(v).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
- if(m)return m[3].length===2?"20"+m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0"):m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0");
- return null;
-}
-function labelDay(k){
- const [y,m,d]=k.split("-").map(Number);
- return new Date(y,m-1,d).toLocaleDateString("en-IN",{day:"2-digit",month:"short"});
-}
-function hasActualSponsorshipAmount(record){
-  // Public dashboard rule: hide rows that contain no actual sponsorship amount.
-  // Budget values are already excluded by amount().
-  if(!record || typeof record !== 'object') return false;
 
-  const skipKeys = new Set([
-    'Timestamp',
-    'Mob Number',
-    'Mobile Number',
-    'Attach Payment screenshot (if possible)'
-  ]);
+  if(!v) return null;
 
-  for(const key of Object.keys(record)){
-    if(skipKeys.has(key)) continue;
-    if(amount(record[key]) > 0) return true;
+  const d = new Date(v);
+
+  if(!isNaN(d)){
+
+    return d.getFullYear() +
+      "-" +
+      String(d.getMonth()+1).padStart(2,"0") +
+      "-" +
+      String(d.getDate()).padStart(2,"0");
+
   }
-  return false;
+
+  const m =
+    String(v).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+
+  if(m){
+
+    return m[3].length === 2
+      ? "20"+m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0")
+      : m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0");
+
+  }
+
+  return null;
 }
+
+
+function labelDay(k){
+
+  const [y,m,d] = k.split("-").map(Number);
+
+  return new Date(y,m-1,d)
+    .toLocaleDateString("en-IN",{
+      day:"2-digit",
+      month:"short"
+    });
+
+}
+
+
+/* --------------------------------
+   ENTRIES
+-------------------------------- */
 
 function makeEntries(r){
- const data=Array.isArray(r.data)?r.data:[],h=Array.isArray(r.headers)?r.headers:Object.keys(data[0]||{});
- const skip=new Set(["Timestamp","Mob Number","Mobile Number","Attach Payment screenshot (if possible)"]);
- let out=[];
- data.forEach(row=>h.forEach(k=>{
-   if(skip.has(k)||!String(row[k]??"").trim())return;
-   const parsedAmount=amount(row[k]);
-   // Do not display non-sponsorship/blank rows. Only actual ₹ amounts count.
-   if(parsedAmount<=0)return;
-   out.push({date:row["Timestamp"]||"",day:dayKey(row["Timestamp"]),person:row["Name & FLAT NO"]||row["Name & FLAT NO."]||"Unknown",mobile:row["Mob Number"]||row["Mobile Number"]||"",category:k,text:String(row[k]),amount:parsedAmount});
- }));
- return out;
-}
-function buildDaily(){
- const map={};
- entries.forEach(x=>{if(!x.day)return;if(!map[x.day])map[x.day]={amount:0,count:0};map[x.day].amount+=x.amount;map[x.day].count++;});
- let cumulative=0;
- daily=Object.keys(map).sort().map(day=>{cumulative+=map[day].amount;return {day,amount:map[day].amount,count:map[day].count,cumulative};});
-}
-function drawCharts(){
- drawLine($("dailyChart"),daily.map(x=>labelDay(x.day)),daily.map(x=>x.amount), "Daily collection", true);
- drawBars($("countChart"),daily.map(x=>labelDay(x.day)),daily.map(x=>x.count), "Daily entries");
-}
-function fit(c){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=Math.max(300,r.width*d);c.height=300*d;return c.getContext("2d");}
-function drawLine(c,labels,vals,title,moneyMode){
- const ctx=fit(c),w=c.width/(devicePixelRatio||1),h=c.height/(devicePixelRatio||1),d=devicePixelRatio||1;
- ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!vals.length)return;
- const pad={l:52,r:15,t:28,b:42},max=Math.max(...vals,1),min=0,plotW=w-pad.l-pad.r,plotH=h-pad.t-pad.b;
- ctx.font="12px Arial";ctx.fillStyle="#6b7280";
- for(let i=0;i<=4;i++){const y=pad.t+plotH*i/4,v=max-(max-min)*i/4;ctx.strokeStyle="#eee";ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(moneyMode?money(v):Math.round(v),5,y+4);}
- ctx.strokeStyle="#8b1e3f";ctx.lineWidth=2;ctx.beginPath();
- vals.forEach((v,i)=>{const x=pad.l+(vals.length===1?plotW/2:i*plotW/(vals.length-1)),y=pad.t+plotH-(v/max)*plotH;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
- ctx.stroke();
- vals.forEach((v,i)=>{const x=pad.l+(vals.length===1?plotW/2:i*plotW/(vals.length-1)),y=pad.t+plotH-(v/max)*plotH;ctx.fillStyle="#8b1e3f";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();if(i===vals.length-1||vals.length<=8){ctx.fillStyle="#555";ctx.fillText(labels[i],x-18,h-14);}});
- ctx.fillStyle="#222";ctx.font="bold 13px Arial";ctx.fillText(title,pad.l,16);
-}
-function drawBars(c,labels,vals,title){
- const ctx=fit(c),w=c.width/(devicePixelRatio||1),h=c.height/(devicePixelRatio||1),d=devicePixelRatio||1;ctx.scale(d,d);ctx.clearRect(0,0,w,h);if(!vals.length)return;
- const pad={l:38,r:12,t:28,b:42},max=Math.max(...vals,1),pw=w-pad.l-pad.r,ph=h-pad.t-pad.b,bw=Math.max(8,pw/vals.length*.65);
- ctx.font="12px Arial";ctx.fillStyle="#6b7280";
- for(let i=0;i<=4;i++){const y=pad.t+ph*i/4,v=max*(1-i/4);ctx.strokeStyle="#eee";ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(Math.round(v),8,y+4);}
- vals.forEach((v,i)=>{const x=pad.l+i*pw/vals.length+(pw/vals.length-bw)/2,hh=(v/max)*ph;ctx.fillStyle="#d97706";ctx.fillRect(x,pad.t+ph-hh,bw,hh);if(vals.length<=8){ctx.fillStyle="#555";ctx.fillText(labels[i],x-8,h-14);}});
- ctx.fillStyle="#222";ctx.font="bold 13px Arial";ctx.fillText(title,pad.l,16);
-}
-let sponsorshipSortAsc=true;
-function sortBySponsorship(list){
-  return [...list].sort((a,b)=>{
-    const aa=String(a.text||"").toLowerCase(), bb=String(b.text||"").toLowerCase();
-    const cmp=aa.localeCompare(bb,undefined,{numeric:true,sensitivity:"base"});
-    if(cmp!==0) return sponsorshipSortAsc?cmp:-cmp;
-    return (b.amount||0)-(a.amount||0);
+
+  const data =
+    Array.isArray(r.data) ? r.data : [];
+
+  const h =
+    Array.isArray(r.headers)
+      ? r.headers
+      : Object.keys(data[0] || {});
+
+  const skip = new Set([
+    "Timestamp",
+    "Mob Number",
+    "Mobile Number",
+    "Attach Payment screenshot (if possible)"
+  ]);
+
+  let out = [];
+
+  data.forEach(row => {
+
+    h.forEach(k => {
+
+      if(
+        skip.has(k) ||
+        !String(row[k] ?? "").trim()
+      ) return;
+
+      const parsedAmount =
+        amount(row[k]);
+
+      if(parsedAmount <= 0) return;
+
+      out.push({
+
+        date:row["Timestamp"] || "",
+
+        day:dayKey(row["Timestamp"]),
+
+        person:
+          row["Name & FLAT NO"] ||
+          row["Name & FLAT NO."] ||
+          "Unknown",
+
+        mobile:
+          row["Mob Number"] ||
+          row["Mobile Number"] ||
+          "",
+
+        category:k,
+
+        text:String(row[k]),
+
+        amount:parsedAmount
+
+      });
+
+    });
+
   });
+
+  return out;
 }
 
-function render(){
- const q=$("q").value.toLowerCase(),c=$("cat").value;
- let a=entries.filter(x=>(!q||(`${x.person} ${x.mobile} ${x.category} ${x.text}`).toLowerCase().includes(q))&&(!c||x.category===c));
- a=sortBySponsorship(a);
- $("rows").innerHTML=a.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.person)}</td><td>${esc(x.mobile||"—")}</td><td>${esc(x.category)}</td><td>${esc(x.text)}</td><td><b>${x.amount?money(x.amount):"—"}</b></td></tr>`).join("")||'<tr><td colspan="6">No matching entries.</td></tr>';
- const total=entries.reduce((s,x)=>s+x.amount,0),people=new Set(entries.map(x=>x.person));
- $("total").textContent=money(total);$("sponsors").textContent=people.size;$("entries").textContent=entries.length;$("avg").textContent=money(entries.length?total/entries.length:0);
- const cats={};entries.forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
- $("cats").innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(x=>`<div style="margin:7px 0"><b>${esc(x[0])}</b> — ${money(x[1])}</div>`).join("")||"No data";
- $("loading").style.display="none";buildDaily();drawCharts();
+
+/* --------------------------------
+   DAILY DATA
+-------------------------------- */
+
+function buildDaily(){
+
+  const map = {};
+
+  entries.forEach(x => {
+
+    if(!x.day) return;
+
+    if(!map[x.day]){
+      map[x.day] = {
+        amount:0,
+        count:0
+      };
+    }
+
+    map[x.day].amount += x.amount;
+    map[x.day].count++;
+
+  });
+
+  let cumulative = 0;
+
+  daily =
+    Object.keys(map)
+      .sort()
+      .map(day => {
+
+        cumulative += map[day].amount;
+
+        return {
+          day,
+          amount:map[day].amount,
+          count:map[day].count,
+          cumulative
+        };
+
+      });
+
 }
-function categories(){const a=[...new Set(entries.map(x=>x.category))].sort();$("cat").innerHTML='<option value="">All categories</option>'+a.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");}
+
+
+/* --------------------------------
+   CHARTS
+-------------------------------- */
+
+function fit(c){
+
+  const r = c.getBoundingClientRect();
+
+  const d = devicePixelRatio || 1;
+
+  c.width = Math.max(300,r.width*d);
+
+  c.height = 285*d;
+
+  return c.getContext("2d");
+
+}
+
+
+function drawCharts(){
+
+  drawLine(
+    $("dailyChart"),
+    daily.map(x=>labelDay(x.day)),
+    daily.map(x=>x.amount),
+    "Daily collection",
+    true
+  );
+
+  drawBars(
+    $("countChart"),
+    daily.map(x=>labelDay(x.day)),
+    daily.map(x=>x.count),
+    "Daily entries"
+  );
+
+}
+
+
+function drawLine(c,labels,vals,title,moneyMode){
+
+  const ctx = fit(c);
+
+  const w =
+    c.width/(devicePixelRatio||1);
+
+  const h =
+    c.height/(devicePixelRatio||1);
+
+  const d =
+    devicePixelRatio||1;
+
+  ctx.scale(d,d);
+
+  ctx.clearRect(0,0,w,h);
+
+  if(!vals.length){
+
+    ctx.fillStyle="#999";
+    ctx.font="14px Arial";
+    ctx.fillText("No collection data yet",20,40);
+    return;
+
+  }
+
+  const pad={
+    l:55,
+    r:15,
+    t:28,
+    b:42
+  };
+
+  const max =
+    Math.max(...vals,1);
+
+  const plotW =
+    w-pad.l-pad.r;
+
+  const plotH =
+    h-pad.t-pad.b;
+
+  ctx.font="11px Arial";
+  ctx.fillStyle="#777";
+
+  for(let i=0;i<=4;i++){
+
+    const y =
+      pad.t+plotH*i/4;
+
+    const v =
+      max-(max*i/4);
+
+    ctx.strokeStyle="#eee";
+
+    ctx.beginPath();
+
+    ctx.moveTo(pad.l,y);
+    ctx.lineTo(w-pad.r,y);
+
+    ctx.stroke();
+
+    ctx.fillText(
+      moneyMode ? money(v) : Math.round(v),
+      5,
+      y+4
+    );
+
+  }
+
+  ctx.strokeStyle="#8b1e3f";
+  ctx.lineWidth=2.5;
+
+  ctx.beginPath();
+
+  vals.forEach((v,i)=>{
+
+    const x =
+      pad.l+
+      (
+        vals.length===1
+          ? plotW/2
+          : i*plotW/(vals.length-1)
+      );
+
+    const y =
+      pad.t+
+      plotH-
+      (v/max)*plotH;
+
+    i
+      ? ctx.lineTo(x,y)
+      : ctx.moveTo(x,y);
+
+  });
+
+  ctx.stroke();
+
+  vals.forEach((v,i)=>{
+
+    const x =
+      pad.l+
+      (
+        vals.length===1
+          ? plotW/2
+          : i*plotW/(vals.length-1)
+      );
+
+    const y =
+      pad.t+
+      plotH-
+      (v/max)*plotH;
+
+    ctx.fillStyle="#8b1e3f";
+
+    ctx.beginPath();
+
+    ctx.arc(x,y,4,0,Math.PI*2);
+
+    ctx.fill();
+
+    if(i===vals.length-1 || vals.length<=8){
+
+      ctx.fillStyle="#555";
+
+      ctx.fillText(
+        labels[i],
+        x-18,
+        h-14
+      );
+
+    }
+
+  });
+
+  ctx.fillStyle="#222";
+  ctx.font="bold 13px Arial";
+
+  ctx.fillText(title,pad.l,16);
+
+}
+
+
+function drawBars(c,labels,vals,title){
+
+  const ctx = fit(c);
+
+  const w =
+    c.width/(devicePixelRatio||1);
+
+  const h =
+    c.height/(devicePixelRatio||1);
+
+  const d =
+    devicePixelRatio||1;
+
+  ctx.scale(d,d);
+
+  ctx.clearRect(0,0,w,h);
+
+  if(!vals.length){
+
+    ctx.fillStyle="#999";
+    ctx.font="14px Arial";
+    ctx.fillText("No entry data yet",20,40);
+    return;
+
+  }
+
+  const pad={
+    l:38,
+    r:12,
+    t:28,
+    b:42
+  };
+
+  const max =
+    Math.max(...vals,1);
+
+  const pw =
+    w-pad.l-pad.r;
+
+  const ph =
+    h-pad.t-pad.b;
+
+  const bw =
+    Math.max(
+      8,
+      pw/vals.length*.65
+    );
+
+  ctx.font="11px Arial";
+  ctx.fillStyle="#777";
+
+  for(let i=0;i<=4;i++){
+
+    const y =
+      pad.t+ph*i/4;
+
+    const v =
+      max*(1-i/4);
+
+    ctx.strokeStyle="#eee";
+
+    ctx.beginPath();
+
+    ctx.moveTo(pad.l,y);
+    ctx.lineTo(w-pad.r,y);
+
+    ctx.stroke();
+
+    ctx.fillText(
+      Math.round(v),
+      8,
+      y+4
+    );
+
+  }
+
+  vals.forEach((v,i)=>{
+
+    const x =
+      pad.l+
+      i*pw/vals.length+
+      (pw/vals.length-bw)/2;
+
+    const hh =
+      (v/max)*ph;
+
+    ctx.fillStyle="#d39b32";
+
+    ctx.fillRect(
+      x,
+      pad.t+ph-hh,
+      bw,
+      hh
+    );
+
+    if(vals.length<=8){
+
+      ctx.fillStyle="#555";
+
+      ctx.fillText(
+        labels[i],
+        x-8,
+        h-14
+      );
+
+    }
+
+  });
+
+  ctx.fillStyle="#222";
+  ctx.font="bold 13px Arial";
+
+  ctx.fillText(
+    title,
+    pad.l,
+    16
+  );
+
+}
+
+
+/* --------------------------------
+   SORTING
+-------------------------------- */
+
+let sponsorshipSortAsc = true;
+
+function sortBySponsorship(list){
+
+  return [...list].sort((a,b)=>{
+
+    const aa =
+      String(a.text||"").toLowerCase();
+
+    const bb =
+      String(b.text||"").toLowerCase();
+
+    const cmp =
+      aa.localeCompare(
+        bb,
+        undefined,
+        {
+          numeric:true,
+          sensitivity:"base"
+        }
+      );
+
+    if(cmp!==0)
+      return sponsorshipSortAsc
+        ? cmp
+        : -cmp;
+
+    return (b.amount||0) -
+      (a.amount||0);
+
+  });
+
+}
+
+
+/* --------------------------------
+   RENDER
+-------------------------------- */
+
+function render(){
+
+  const q =
+    $("q").value.toLowerCase();
+
+  const c =
+    $("cat").value;
+
+  let a =
+    entries.filter(x =>
+      (
+        !q ||
+        `${x.person} ${x.mobile} ${x.category} ${x.text}`
+          .toLowerCase()
+          .includes(q)
+      ) &&
+      (!c || x.category===c)
+    );
+
+  a =
+    sortBySponsorship(a);
+
+
+  /* TABLE */
+
+  $("rows").innerHTML =
+    a.length
+
+      ? a.map(x => `
+
+        <tr>
+
+          <td>${esc(x.date)}</td>
+
+          <td>
+            <strong>${esc(x.person)}</strong>
+          </td>
+
+          <td class="mobile">
+            ${esc(x.mobile || "—")}
+          </td>
+
+          <td>
+            <span class="category-badge">
+              ${esc(x.category)}
+            </span>
+          </td>
+
+          <td>
+            ${esc(x.text)}
+          </td>
+
+          <td class="amount">
+            ${x.amount ? money(x.amount) : "—"}
+          </td>
+
+        </tr>
+
+      `).join("")
+
+      : `
+        <tr>
+          <td colspan="6" class="empty">
+            No matching sponsorship entries found.
+          </td>
+        </tr>
+      `;
+
+
+  /* BOTTOM SUMMARY */
+
+  const total =
+    entries.reduce(
+      (s,x)=>s+x.amount,
+      0
+    );
+
+  const people =
+    new Set(
+      entries.map(x=>x.person)
+    );
+
+  $("total").textContent =
+    money(total);
+
+  $("sponsors").textContent =
+    people.size;
+
+  $("entries").textContent =
+    entries.length;
+
+  $("avg").textContent =
+    money(
+      entries.length
+        ? total/entries.length
+        : 0
+    );
+
+
+  /* FILTER STATUS */
+
+  if(q || c){
+
+    $("filterHint").textContent =
+      `Showing ${a.length} of ${entries.length} sponsorship entries`;
+
+  }else{
+
+    $("filterHint").textContent =
+      `Showing all ${entries.length} sponsorship entries`;
+
+  }
+
+
+  /* CATEGORY TOTALS */
+
+  const cats = {};
+
+  entries.forEach(x => {
+
+    cats[x.category] =
+      (cats[x.category]||0) +
+      x.amount;
+
+  });
+
+
+  const sortedCats =
+    Object.entries(cats)
+      .sort((a,b)=>b[1]-a[1]);
+
+
+  $("cats").innerHTML =
+    sortedCats.length
+
+      ? sortedCats.map(x => `
+
+          <div
+            class="category-card"
+            data-category="${esc(x[0])}"
+            title="Click to filter sponsorships"
+          >
+
+            <div class="category-name">
+              ${esc(x[0])}
+            </div>
+
+            <div class="category-amount">
+              ${money(x[1])}
+            </div>
+
+          </div>
+
+        `).join("")
+
+      : `<div class="muted">No sponsorship data available.</div>`;
+
+
+  document
+    .querySelectorAll(".category-card")
+    .forEach(card => {
+
+      card.addEventListener(
+        "click",
+        () => {
+
+          $("cat").value =
+            card.dataset.category;
+
+          render();
+
+          document
+            .querySelector(".panel:nth-of-type(4)")
+            ?.scrollIntoView({
+              behavior:"smooth",
+              block:"start"
+            });
+
+        }
+      );
+
+    });
+
+
+  $("loading").style.display =
+    "none";
+
+
+  buildDaily();
+
+  drawCharts();
+
+}
+
+
+/* --------------------------------
+   CATEGORY FILTER
+-------------------------------- */
+
+function categories(){
+
+  const a =
+    [...new Set(
+      entries.map(x=>x.category)
+    )].sort();
+
+  $("cat").innerHTML =
+    '<option value="">All categories</option>' +
+
+    a.map(x =>
+      `<option value="${esc(x)}">
+        ${esc(x)}
+      </option>`
+    ).join("");
+
+}
+
+
+/* --------------------------------
+   LOAD DATA
+-------------------------------- */
+
 async function load(force=false){
- if(!force)try{const c=JSON.parse(localStorage.getItem(CACHE)||"null");if(c){entries=makeEntries(c);categories();render();$("status").textContent="Showing cached data while checking for updates…"}}catch(e){}
- const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),10000);
- try{const r=await fetch(API_URL,{cache:"no-store",signal:ctl.signal});if(!r.ok)throw Error("HTTP "+r.status);const j=await r.json();if(!j.success)throw Error(j.error||"API error");localStorage.setItem(CACHE,JSON.stringify(j));entries=makeEntries(j);categories();render();$("status").textContent="Live data updated • "+new Date().toLocaleTimeString();$("err").style.display="none";}
- catch(e){if(!entries.length){$("err").textContent="Could not load live sponsorship data. Please try Refresh.";$("err").style.display="block";}$("status").textContent="Showing latest available data";}
- finally{clearTimeout(timer)}}
-$("q").addEventListener("input",render);$("cat").addEventListener("change",render);$("refresh").addEventListener("click",()=>load(true));window.addEventListener("resize",()=>daily.length&&drawCharts());load(false);setInterval(()=>load(false),300000);
-</script></body></html>
+
+  if(!force){
+
+    try{
+
+      const c =
+        JSON.parse(
+          localStorage.getItem(CACHE) || "null"
+        );
+
+      if(c){
+
+        entries =
+          makeEntries(c);
+
+        categories();
+
+        render();
+
+        $("status").textContent =
+          "Showing cached data while checking for updates…";
+
+      }
+
+    }catch(e){}
+
+  }
+
+
+  const ctl =
+    new AbortController();
+
+  const timer =
+    setTimeout(
+      ()=>ctl.abort(),
+      10000
+    );
+
+
+  try{
+
+    const r =
+      await fetch(
+        API_URL,
+        {
+          cache:"no-store",
+          signal:ctl.signal
+        }
+      );
+
+    if(!r.ok)
+      throw Error("HTTP "+r.status);
+
+    const j =
+      await r.json();
+
+    if(!j.success)
+      throw Error(
+        j.error || "API error"
+      );
+
+
+    localStorage.setItem(
+      CACHE,
+      JSON.stringify(j)
+    );
+
+
+    entries =
+      makeEntries(j);
+
+    categories();
+
+    render();
+
+
+    $("status").textContent =
+      "Live data updated • " +
+      new Date().toLocaleTimeString();
+
+
+    $("err").style.display =
+      "none";
+
+
+  }catch(e){
+
+    if(!entries.length){
+
+      $("err").textContent =
+        "Could not load live sponsorship data. Please try Refresh.";
+
+      $("err").style.display =
+        "block";
+
+    }
+
+    $("status").textContent =
+      "Showing latest available data";
+
+  }finally{
+
+    clearTimeout(timer);
+
+  }
+
+}
+
+
+/* --------------------------------
+   EVENTS
+-------------------------------- */
+
+$("q")
+  .addEventListener(
+    "input",
+    render
+  );
+
+
+$("cat")
+  .addEventListener(
+    "change",
+    render
+  );
+
+
+$("refresh")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const btn =
+        $("refresh");
+
+      btn.disabled = true;
+
+      btn.textContent =
+        "↻ Updating…";
+
+      await load(true);
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "↻ Refresh";
+
+    }
+  );
+
+
+/* --------------------------------
+   RESIZE
+-------------------------------- */
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    if(daily.length)
+      drawCharts();
+
+  }
+);
+
+
+/* --------------------------------
+   INITIAL LOAD
+-------------------------------- */
+
+load(false);
+
+
+/* Refresh every 5 minutes */
+
+setInterval(
+  () => load(false),
+  300000
+);
+
+</script>
+
+</body>
+</html>
