@@ -447,6 +447,23 @@ tbody tr:last-child td{
   padding:25px;
 }
 
+
+/* PUJA PAMPHLET */
+.pamphlet-panel{background:linear-gradient(135deg,#fffaf2,#ffffff)}
+.pamphlet-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:15px}
+.form-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;background:#8b1e3f;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:700;white-space:nowrap}
+.form-button:hover{background:#741730}
+.pamphlet-container{text-align:center;background:#fff;border:1px solid #eadfe2;border-radius:14px;padding:10px;overflow:hidden}
+.pamphlet-image{display:block;width:100%;max-width:660px;height:auto;margin:auto;border-radius:10px}
+.sort-tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.sort-label{font-size:13px;font-weight:700;color:#5c4c51}
+#sortBy{min-width:210px}
+@media(max-width:650px){
+  .pamphlet-header{display:block}
+  .form-button{width:100%;margin-top:5px}
+  #sortBy{width:100%}
+}
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -601,6 +618,39 @@ tbody tr:last-child td{
   </div>
 </section>
 
+
+<!-- PUJA SPONSORSHIP OPTIONS -->
+
+<section class="panel pamphlet-panel">
+
+  <div class="pamphlet-header">
+    <div>
+      <h2>🙏 Puja Sponsorship Options</h2>
+      <div class="section-subtitle">
+        Choose a sponsorship option from the Puja pamphlet and submit your contribution through the form.
+      </div>
+    </div>
+
+    <a
+      href="https://forms.gle/p815HuL5vY99qGqJ7"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="form-button"
+    >
+      📝 Fill Sponsorship Form
+    </a>
+  </div>
+
+  <div class="pamphlet-container">
+    <img
+      src="pamphlet.jpg"
+      alt="Happy Trails Durga Puja 2026 Resident Puja Sponsorship options"
+      class="pamphlet-image"
+    >
+  </div>
+
+</section>
+
 <!-- SEARCH -->
 
 <section class="panel">
@@ -629,6 +679,20 @@ tbody tr:last-child td{
 </button>
 ```
 
+  </div>
+
+  <div class="sort-tools">
+    <span class="sort-label">Sort by:</span>
+
+    <select id="sortBy" aria-label="Sort sponsorships">
+      <option value="categoryAsc">Category A → Z</option>
+      <option value="categoryDesc">Category Z → A</option>
+      <option value="amountDesc">Amount: High → Low</option>
+      <option value="amountAsc">Amount: Low → High</option>
+      <option value="personAsc">Resident A → Z</option>
+      <option value="dateDesc">Date: Newest → Oldest</option>
+      <option value="dateAsc">Date: Oldest → Newest</option>
+    </select>
   </div>
 
   <div id="filterHint" class="filter-hint">
@@ -1266,40 +1330,56 @@ function drawBars(c,labels,vals,title){
    SORTING
 -------------------------------- */
 
-let sponsorshipSortAsc = true;
+function sortEntries(list){
 
-function sortBySponsorship(list){
+  const mode = $("sortBy").value;
 
   return [...list].sort((a,b)=>{
 
-    const aa =
-      String(a.text||"").toLowerCase();
+    switch(mode){
 
-    const bb =
-      String(b.text||"").toLowerCase();
+      case "categoryAsc":
+        return String(a.category || "").localeCompare(
+          String(b.category || ""),
+          undefined,
+          {numeric:true,sensitivity:"base"}
+        );
 
-    const cmp =
-      aa.localeCompare(
-        bb,
-        undefined,
-        {
-          numeric:true,
-          sensitivity:"base"
-        }
-      );
+      case "categoryDesc":
+        return String(b.category || "").localeCompare(
+          String(a.category || ""),
+          undefined,
+          {numeric:true,sensitivity:"base"}
+        );
 
-    if(cmp!==0)
-      return sponsorshipSortAsc
-        ? cmp
-        : -cmp;
+      case "amountDesc":
+        return (b.amount || 0) - (a.amount || 0);
 
-    return (b.amount||0) -
-      (a.amount||0);
+      case "amountAsc":
+        return (a.amount || 0) - (b.amount || 0);
 
+      case "personAsc":
+        return String(a.person || "").localeCompare(
+          String(b.person || ""),
+          undefined,
+          {sensitivity:"base"}
+        );
+
+      case "dateDesc":
+        return String(b.date || "").localeCompare(String(a.date || ""));
+
+      case "dateAsc":
+        return String(a.date || "").localeCompare(String(b.date || ""));
+
+      default:
+        return String(a.category || "").localeCompare(
+          String(b.category || ""),
+          undefined,
+          {numeric:true,sensitivity:"base"}
+        );
+    }
   });
-
 }
-
 
 /* --------------------------------
    RENDER
@@ -1325,7 +1405,7 @@ function render(){
     );
 
   a =
-    sortBySponsorship(a);
+    sortEntries(a);
 
 
   /* TABLE */
@@ -1649,6 +1729,13 @@ $("q")
 
 
 $("cat")
+  .addEventListener(
+    "change",
+    render
+  );
+
+
+$("sortBy")
   .addEventListener(
     "change",
     render
